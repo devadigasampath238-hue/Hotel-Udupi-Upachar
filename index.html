@@ -496,8 +496,8 @@
       <div class="qr-cta-text-main">🌿 Pure Veg. Fast Order. Hot Food.</div>
       <div class="qr-cta-text-sub">The complete Udupi Vaibhav experience — now on your phone</div>
     </div>
-    <button class="qr-cta-btn" onclick="alert('Opening digital menu...\n\nIn production this links to your live ordering page!')">
-      🍽️ Open Digital Menu
+    <button class="qr-cta-btn" onclick="window.open('https://wa.me/919876543210?text=' + encodeURIComponent('Hello Udupi Vaibhav! 🙏 I want to place an order. Please share the menu. 🌿'), '_blank')">
+      💬 Order via WhatsApp
     </button>
   </div>
 </section>
@@ -651,7 +651,7 @@
       <p class="footer-col-title">Contact</p>
       <ul class="footer-links">
         <li><a href="#">📞 +91 98765 43210</a></li>
-        <li><a href="#">📧 udupivaibhav@gmail.com</a></li>
+        <li><a href="#">📧 <span class="__cf_email__" data-cfemail="76031203061f00171f141e170036111b171f1a5815191b">[email&#160;protected]</span></a></li>
         <li><a href="#">📍 Magadi Road, Bangalore</a></li>
         <li><a href="#">⏰ Open 6 AM – 10 PM</a></li>
         <li><a href="#">🌿 100% Pure Veg</a></li>
@@ -667,7 +667,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* Scroll Reveal */
 const reveals = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver(entries => {
@@ -708,7 +708,14 @@ document.querySelectorAll('.chart-tab').forEach(tab => {
   });
 });
 
-/* QR CODE GENERATOR */
+/* ─────────────────────────────────────────────
+   QR CODE GENERATOR — WhatsApp Ordering
+   Scans open WhatsApp instantly on any phone.
+   ⚠️  Replace WHATSAPP_NUMBER with your real
+       number: country code + 10 digits, no spaces
+       Example India: '919845001234'
+───────────────────────────────────────────── */
+const WHATSAPP_NUMBER = '919876543210'; // ← CHANGE THIS to your real WhatsApp number
 let currentTable = 1;
 
 /* Build table buttons T1–T12 */
@@ -730,8 +737,13 @@ function generateQR(tableNum) {
   const container = document.getElementById('qr-canvas-display');
   container.innerHTML = '';
 
-  const url = 'https://udupivaibhav.menu/order?table=' + tableNum
-            + '&place=Udupi+Vaibhav+Magadi+Road+Bangalore';
+  /* WhatsApp pre-filled message — works on ANY phone, no app needed */
+  const msg = 'Hello Udupi Vaibhav! 🙏\nI am at *Table ' + tableNum + '*.\nPlease take my order. 🌿';
+  const url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+
+  /* Update the instruction label */
+  const instr = document.querySelector('.qr-card-instruction');
+  if (instr) instr.innerHTML = 'Scan to WhatsApp order from <strong>Table ' + tableNum + '</strong> 💬';
 
   new QRCode(container, {
     text:         url,
@@ -744,14 +756,4 @@ function generateQR(tableNum) {
 
   /* Make generated element fill the frame */
   setTimeout(() => {
-    const el = container.querySelector('img') || container.querySelector('canvas');
-    if (el) {
-      el.style.cssText = 'width:100%;height:100%;border-radius:8px;display:block;';
-    }
-  }, 150);
-}
-
-window.addEventListener('load', () => generateQR(1));
-</script>
-</body>
-</html>
+    const el = container.querySelector('img') || container.querySelector('canv
